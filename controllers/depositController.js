@@ -1,30 +1,31 @@
 import axios from 'axios';
-import envVars from '../utilities/envVars.js';
+import variables from '../utilities/variables.js';
 import getMpesaCredentials from '../utilities/getMpesaCredentials.js';
 import getMpesaPassword from '../utilities/getMpesaPassword.js';
 
 export const deposit = async (req, res, next) => {
-  const { phone } = req.body;
+  const { phone, amount } = req.body;
   const { access_token } = await getMpesaCredentials();
 
+  if (!phone || !amount)
+    return res.status(400).send({ error: 'Missing required values' });
+
   const data = {
-    BusinessShortCode: '174379',
+    BusinessShortCode: variables.MPESA_SHORTCODE,
     Password: getMpesaPassword().password,
     Timestamp: getMpesaPassword().timestamp,
     TransactionType: 'CustomerPayBillOnline',
-    Amount: '1',
+    Amount: amount,
     PartyA: phone,
-    PartyB: '174379',
+    PartyB: variables.MPESA_SHORTCODE,
     PhoneNumber: phone,
-    CallBackURL: `${envVars.API_URL}/api/client/mpesa-callback/deposit`,
-    AccountReference: 'MONARCH LTD',
-    TransactionDesc: 'MONARCH LTD',
+    CallBackURL: `${variables.CALLBACK_URL}/api/client/mpesa-callback/deposit`,
+    AccountReference: 'EXAMPLE',
+    TransactionDesc: 'EXAMPLE',
   };
 
   const config = {
-    headers: {
-      Authorization: `Bearer ${access_token}`,
-    },
+    headers: { Authorization: `Bearer ${access_token}` },
   };
 
   axios
@@ -33,11 +34,6 @@ export const deposit = async (req, res, next) => {
       data,
       config
     )
-    .then(res => {
-      res.send({ res });
-      console.log(res);
-    })
-    .catch(error => {
-      res.send(error);
-    });
+    .then((res) => console.log(res))
+    .catch((error) => res.send(error));
 };

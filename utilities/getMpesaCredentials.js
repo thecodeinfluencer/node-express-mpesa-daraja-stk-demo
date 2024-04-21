@@ -1,4 +1,4 @@
-import envVars from './envVars.js';
+import variables from './variables.js';
 import axios from 'axios';
 
 const getMpesaCredentials = async () => {
@@ -7,7 +7,7 @@ const getMpesaCredentials = async () => {
   const config = {
     headers: {
       Authorization: `Basic ${Buffer.from(
-        envVars.MPESA_CONSUMER_KEY + ':' + envVars.MPESA_CONSUMER_SECRET
+        variables.MPESA_CONSUMER_KEY + ':' + variables.MPESA_CONSUMER_SECRET
       ).toString('base64')}`,
     },
   };
@@ -17,12 +17,10 @@ const getMpesaCredentials = async () => {
       'https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials',
       config
     )
-    .then(resp => {
+    .then((resp) => {
       credential = resp.data;
     })
-    .catch(error => {
-      console.log(error.message);
-    });
+    .catch((error) => console.log(error.message));
 
   return credential;
 };
