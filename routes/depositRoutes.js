@@ -3,6 +3,6 @@ import { deposit } from '../controllers/depositController.js';
 
 const router = express.Router();
 
-router.route('/deposit').post(deposit);
+router.route('/stk').post(deposit);
 
 export default router;

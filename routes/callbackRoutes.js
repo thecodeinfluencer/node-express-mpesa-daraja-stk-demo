@@ -3,6 +3,6 @@ import { depositCallback } from '../controllers/callbackController.js';
 
 const router = express.Router();
 
-router.route('/deposit').post(depositCallback);
+router.route('/callback').post(depositCallback);
 
 export default router;

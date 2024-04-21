@@ -12,9 +12,7 @@ app.use(bodyParser.json({ extended: true }));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
 
-app.use('/api/client/mpesa', depositRoutes);
-app.use('/api/client/mpesa-callback', callbackRoutes);
+app.use('/api/example', depositRoutes);
+app.use('/api/example', callbackRoutes);
 
-app.listen(PORT, () => {
-  console.log(`listening on ${PORT}`);
-});
+app.listen(PORT, () => console.log(`listening on ${PORT}`));
