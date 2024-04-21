@@ -1,5 +1,5 @@
-export const depositCallback = async (req, res, next) => {
-  console.log(`
+export const stkCallback = async (req, res, next) => {
+  console.info(`
   Mpesa Callback
 
   Request Body: ${req.body}

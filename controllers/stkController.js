@@ -3,7 +3,7 @@ import variables from '../utilities/variables.js';
 import getMpesaCredentials from '../utilities/getMpesaCredentials.js';
 import getMpesaPassword from '../utilities/getMpesaPassword.js';
 
-export const deposit = async (req, res, next) => {
+export const stk = async (req, res, next) => {
   const { phone, amount } = req.body;
   const { access_token } = await getMpesaCredentials();
 
@@ -19,7 +19,7 @@ export const deposit = async (req, res, next) => {
     PartyA: phone,
     PartyB: variables.MPESA_SHORTCODE,
     PhoneNumber: phone,
-    CallBackURL: `${variables.CALLBACK_URL}/api/client/mpesa-callback/deposit`,
+    CallBackURL: `${variables.CALLBACK_URL}/api/example/callback`,
     AccountReference: 'EXAMPLE',
     TransactionDesc: 'EXAMPLE',
   };
@@ -34,6 +34,6 @@ export const deposit = async (req, res, next) => {
       data,
       config
     )
-    .then((res) => console.log(res))
-    .catch((error) => res.send(error));
+    .then((resp) => res.send(resp.data))
+    .catch((error) => res.status(400).send({ message: error?.message }));
 };
